@@ -1,0 +1,10 @@
+[package]
+name = "bowling-rs"
+version = "1.0.0"
+edition = "2024"
+description = "A basic bowling score calculator written in Rust."
+homepage = "https://github.com/TheYule/bowling-rs"
+repository = "https://github.com/TheYule/bowling-rs"
+license = "MIT"
+keywords = ["bowling", "scoring", "sports"]
+categories = ["data-structures", "mathematics", "parsing"]
