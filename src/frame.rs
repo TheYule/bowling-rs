@@ -54,7 +54,7 @@ impl Frame {
 
     /// Check if the [Frame] is a spare.
     pub fn is_spare(&self) -> bool {
-        !self.is_strike() && (self.second == Score::SPARE || self.first.value() + self.second.value() >= 10)
+        !self.is_strike() && (self.second == Score::SPARE || self.first.value() + self.second.value() == 10)
     }
 
     /// Check if the [Frame] is a strike.
@@ -68,7 +68,7 @@ impl Frame {
 
         if self.second == Score::SPARE {
             value += 10 - value;
-        } else {
+        } else if !self.first.is_strike() || self.bonus.is_some() {
             value += self.second.value();
         }
 
@@ -78,7 +78,11 @@ impl Frame {
             } else {
                 value += bonus.value();
             }
-        }
+
+			value = value.min(30);
+        } else {
+			value = value.min(10);
+		}
 
         value
     }

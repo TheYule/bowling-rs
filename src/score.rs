@@ -19,10 +19,26 @@ impl Score {
     pub fn value(&self) -> usize {
         match self {
             Score::EMPTY => 0,
-            Score::PINS(value) => *value.min(&10),
+            Score::PINS(value) => match *value {
+				0..=10 => *value,
+				_ => 0
+			},
             Score::SPARE | Score::STRIKE => 10
         }
     }
+
+	/// Check if the [Score] is considered "empty."
+	pub fn is_empty(&self) -> bool {
+		if let Score::PINS(value) = self {
+			if value >= &0 && value <= &10 {
+				return false;
+			} else {
+				return true;
+			}
+		}
+		
+		*self == Score::EMPTY
+	}
 
     /// Check if the [Score] is a strike.
     pub fn is_strike(&self) -> bool {
@@ -31,7 +47,7 @@ impl Score {
         }
 
         if let Score::PINS(value) = self {
-            if value >= &10 {
+            if value == &10 {
                 return true;
             }
         }
@@ -61,7 +77,7 @@ impl<V> From<V> for Score where V: Into<usize> {
     fn from(value: V) -> Self {
         let v = value.into();
 
-        if v >= 10 {
+        if v == 10 {
             return Self::STRIKE;
         }
 

@@ -29,12 +29,12 @@ impl Game {
     }
 
     /// Returns an iterator for the [Frame]s of the [Game].
-    pub fn iter(&self) -> Iter<Frame> {
+    pub fn iter(&self) -> Iter<'_, Frame> {
         self.frames.iter()
     }
 
     /// Returns a mutable iterator for the [Frame]s of the [Game].
-    pub fn iter_mut(&mut self) -> IterMut<Frame> {
+    pub fn iter_mut(&mut self) -> IterMut<'_, Frame> {
         self.frames.iter_mut()
     }
 

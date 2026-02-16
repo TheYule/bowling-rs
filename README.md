@@ -45,7 +45,7 @@ assert_eq!(game.score(), 245);
 
 ### Parsing
 
-You can also create games with a `Vec<Vec<usize>>` or `Vec<usize>` using [`parse_score`] or [`parse_raw_score`], respectively.
+You can also create games with a `Vec<Vec<usize>>` or `Vec<usize>` using `parse_score` or `parse_raw_score`, respectively.
 
 ```rust
 use bowling_rs::{Game, parse_score};
@@ -62,7 +62,7 @@ let game = parse_score(vec![
 assert_eq!(game.score(), 245);
 ```
 
-[`parse_raw_score`] takes in shots, rather than frames.
+`parse_raw_score` takes in shots, rather than frames.
 
 ```rust
 use bowling_rs::{Game, parse_raw_score};
@@ -82,7 +82,7 @@ assert_eq!(game.score(), 245);
 
 ### Custom Bowling Scoring
 
-You can create custom scoring for games using a [`ScoreProvider`].
+You can create custom scoring for games using a `ScoreProvider`.
 
 ```rust
 use bowling_rs::{Frame, Game, ScoreProvider};

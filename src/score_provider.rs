@@ -35,25 +35,29 @@ impl ScoreProvider for TenPinScoreProvider {
                 score += frame.value();
 
                 // Add bonus points
+				// TODO: fix bonus point system
                 if i < game.frame_count - 1 {
                     if let Some(next) = game.frame(i + 1) {
                         if frame.is_spare() {
                             score += next.first.value();
                         } else if frame.is_strike() {
                             score += next.first.value();
-                            
+
+							// Broken here?
                             if next.is_strike() {
                                 if i == game.frame_count - 2 {
+                                    // Fix for spares
                                     score += next.second.value();
                                 } else {
                                     if let Some(next2) = game.frame(i + 2) {
+                                        // Fix for spares
                                         score += next2.first.value();
                                     }
                                 }
                             } else if next.is_spare() {
                                 score += 10 - next.first.value();
                             } else {
-                                score += next.second.value();
+                                score += next.second.value().min(10 - next.first.value());
                             }
                         }
                     }
@@ -76,11 +80,11 @@ impl ScoreProvider for TenPinScoreProvider {
                 if i == game.frame_count - 1 {
                     let mut f = frame.clone();
 
-                    if f.first == Score::EMPTY {
+                    if f.first.is_empty() {
                         f.first = Score::STRIKE;
                     }
 
-                    if f.second == Score::EMPTY {
+                    if f.second.is_empty() {
                         if f.first == Score::STRIKE {
                             f.second = Score::STRIKE;
                         } else {
@@ -89,7 +93,7 @@ impl ScoreProvider for TenPinScoreProvider {
                     }
 
                     if let Some(bonus) = frame.bonus {
-                        if bonus == Score::EMPTY {
+                        if bonus.is_empty() {
                             if f.second.is_strike() {
                                 f.bonus = Some(Score::STRIKE);
                             } else {
@@ -108,7 +112,7 @@ impl ScoreProvider for TenPinScoreProvider {
                 } else {
                     if frame.first.is_strike() {
                         frames.push(Frame::strike());
-                    } else if frame.second == Score::EMPTY {
+                    } else if frame.second.is_empty() {
                         frames.push(Frame::spare(frame.first.value()))
                     } else {
                         frames.push(frame.clone());
